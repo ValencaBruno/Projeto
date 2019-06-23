@@ -40,6 +40,7 @@ public class Principal extends javax.swing.JFrame {
         jButtonPlanoEnsino = new javax.swing.JButton();
         jButtonAtas = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.Color.white);
@@ -96,6 +97,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Sistema Acadêmico");
 
+        jButtonSair.setText("Sair");
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,16 +121,24 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jButtonProjetoPedagogico, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonAtas))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAtas))
+                        .addContainerGap(31, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonSair))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addComponent(jButtonSair))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -164,7 +180,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDisciplinaActionPerformed
 
     private void jButtonPlanoEnsinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlanoEnsinoActionPerformed
-        BuscaPlanoEnsino tela = new BuscaPlanoEnsino();
+        PlanoEnsino tela = new PlanoEnsino();
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonPlanoEnsinoActionPerformed
@@ -174,6 +190,12 @@ public class Principal extends javax.swing.JFrame {
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonAtasActionPerformed
+
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        TelaLogin tela = new TelaLogin();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButtonSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +239,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPlanoEnsino;
     private javax.swing.JButton jButtonProfessor;
     private javax.swing.JButton jButtonProjetoPedagogico;
+    private javax.swing.JButton jButtonSair;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

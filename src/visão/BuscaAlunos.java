@@ -5,14 +5,20 @@
  */
 package visão;
 
+import controle.conectaBD;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import modelo.ModeloTabela;
 
 /**
  *
  * @author Luana
  */
 public class BuscaAlunos extends javax.swing.JFrame {
-
+    conectaBD conex = new conectaBD();
+    
     /**
      * Creates new form selecaoalunos
      */
@@ -37,11 +43,11 @@ public class BuscaAlunos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListBuscaAluno = new javax.swing.JList();
         jButtonBuscar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableAlunos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Alunos");
@@ -53,13 +59,6 @@ public class BuscaAlunos extends javax.swing.JFrame {
         jLabel3.setText("CPF");
 
         jLabel4.setText("Busca de Alunos");
-
-        jListBuscaAluno.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jListBuscaAluno);
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +81,24 @@ public class BuscaAlunos extends javax.swing.JFrame {
             }
         });
 
+        jTableAlunos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jTableAlunos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableAlunosMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTableAlunos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,30 +106,26 @@ public class BuscaAlunos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonNovo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonVoltar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonBuscar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(52, Short.MAX_VALUE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButtonNovo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButtonVoltar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButtonBuscar))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,9 +144,9 @@ public class BuscaAlunos extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonBuscar)
                     .addComponent(jButtonVoltar)
@@ -153,11 +166,12 @@ public class BuscaAlunos extends javax.swing.JFrame {
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         CadastroAlunos tela = new CadastroAlunos();
         tela.setVisible(true);
+        tela.novo();
         dispose();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        String sql = "SELECT MATRICULA, NOME, CPF FROM Alunos ";
+        String sql = "SELECT ID_ALUNOS, MATRICULA, NOME, CPF FROM Alunos ";
         String matricula = jTextFieldMatricula.getText();
         String nome = jTextFieldNome.getText();
         String cpf = jTextFieldCPF.getText();
@@ -170,7 +184,7 @@ public class BuscaAlunos extends javax.swing.JFrame {
         
         if (matricula.equals("")){
         }else{
-            sql = sql + "MATRICULA = " + matricula;
+            sql = sql + "MATRICULA LIKE '%" + matricula + "%'";
             aux = 1;
         }
         
@@ -192,9 +206,51 @@ public class BuscaAlunos extends javax.swing.JFrame {
         }
         
         sql = sql + " ORDER BY NOME;";
-        JOptionPane.showMessageDialog(null, sql);
+        //JOptionPane.showMessageDialog(null, sql);
+        preencherTabela(sql);
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
+    private void jTableAlunosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAlunosMouseClicked
+        if (evt.getClickCount() == 2){
+            CadastroAlunos tela = new CadastroAlunos();
+            tela.setVisible(true);
+            tela.preencheAluno((int) jTableAlunos.getValueAt(jTableAlunos.getSelectedRow(), 0));
+            dispose();
+        }
+    }//GEN-LAST:event_jTableAlunosMouseClicked
+
+    public void preencherTabela(String Sql){
+        ArrayList dados = new ArrayList();
+        String [] colunas = new String []{"","Matrícula","Nome","CPF"};
+        conex.conexao();
+        conex.executaSql(Sql);
+        try{
+            conex.rs.first();
+            do{
+                dados.add(new Object[]{conex.rs.getInt("ID_ALUNOS"),conex.rs.getString("MATRICULA"),conex.rs.getString("NOME"),conex.rs.getString("CPF")});
+            }while(conex.rs.next());
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher ArrayList"+ex);
+        }
+        
+        ModeloTabela modelo = new ModeloTabela(dados, colunas);
+        jTableAlunos.setModel(modelo);
+        jTableAlunos.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableAlunos.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableAlunos.getColumnModel().getColumn(0).setResizable(false);
+        jTableAlunos.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableAlunos.getColumnModel().getColumn(1).setResizable(false);
+        jTableAlunos.getColumnModel().getColumn(2).setPreferredWidth(262);
+        jTableAlunos.getColumnModel().getColumn(2).setResizable(false);
+        jTableAlunos.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableAlunos.getColumnModel().getColumn(3).setResizable(false);
+        jTableAlunos.getTableHeader().setReorderingAllowed(false);
+        jTableAlunos.setAutoResizeMode(jTableAlunos.AUTO_RESIZE_OFF);
+        jTableAlunos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        conex.desconecta();
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -239,8 +295,8 @@ public class BuscaAlunos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList jListBuscaAluno;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTableAlunos;
     private javax.swing.JTextField jTextFieldCPF;
     private javax.swing.JTextField jTextFieldMatricula;
     private javax.swing.JTextField jTextFieldNome;

@@ -28,6 +28,7 @@ public class ModeloAlunos {
     private String EMAIL;
     private String TELEFONE;
     private String CELULAR;
+    private int ID_ALUNO;
 
     /**
      * @return the MATRICULA
@@ -279,5 +280,19 @@ public class ModeloAlunos {
      */
     public void setCELULAR(String CELULAR) {
         this.CELULAR = CELULAR;
+    }
+
+    /**
+     * @return the ID_ALUNO
+     */
+    public int getID_ALUNO() {
+        return ID_ALUNO;
+    }
+
+    /**
+     * @param ID_ALUNO the ID_ALUNO to set
+     */
+    public void setID_ALUNO(int ID_ALUNO) {
+        this.ID_ALUNO = ID_ALUNO;
     }
 }

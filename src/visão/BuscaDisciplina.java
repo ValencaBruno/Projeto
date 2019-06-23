@@ -6,14 +6,20 @@
 package visão;
 
 import javax.swing.JOptionPane;
-
+import controle.conectaBD;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.ListSelectionModel;
+import modelo.ModeloTabela;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 /**
  *
  * @author Luana
  */
 
 public class BuscaDisciplina extends javax.swing.JFrame {
-
+    conectaBD conex = new conectaBD();
     /**
      * Creates new form selecaoalunos
      */
@@ -36,11 +42,11 @@ public class BuscaDisciplina extends javax.swing.JFrame {
         jTextFieldCodigo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListBuscaDisciplina = new javax.swing.JList();
         jButtonBuscar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableDisciplina = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Disciplina");
@@ -50,13 +56,6 @@ public class BuscaDisciplina extends javax.swing.JFrame {
         jLabel2.setText("Disciplina");
 
         jLabel4.setText("Busca de Disciplina");
-
-        jListBuscaDisciplina.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jListBuscaDisciplina);
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -79,6 +78,24 @@ public class BuscaDisciplina extends javax.swing.JFrame {
             }
         });
 
+        jTableDisciplina.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jTableDisciplina.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDisciplinaMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTableDisciplina);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,27 +104,27 @@ public class BuscaDisciplina extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 11, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonNovo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonVoltar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonBuscar))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane1)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextFieldDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(52, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,9 +139,9 @@ public class BuscaDisciplina extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonBuscar)
                     .addComponent(jButtonVoltar)
@@ -144,11 +161,14 @@ public class BuscaDisciplina extends javax.swing.JFrame {
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
         Disciplina tela = new Disciplina();
         tela.setVisible(true);
+        tela.novo();
         dispose();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
+    
+    
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        String sql = "SELECT CODIGO_DA_DISCIPLINA, DESCRICAO FROM Disciplina ";
+        String sql = "SELECT ID_DISCIPLINA, CODIGO_DA_DISCIPLINA, NOME_DA_DISCIPLINA FROM Disciplina ";
         String codigo = jTextFieldCodigo.getText();
         String disciplina = jTextFieldDisciplina.getText();
         int aux = 0;
@@ -160,7 +180,7 @@ public class BuscaDisciplina extends javax.swing.JFrame {
         
         if (codigo.equals("")){
         }else{
-            sql = sql + "CODIGO_DA_DISCIPLINA = " + codigo;
+            sql = sql + "CODIGO_DA_DISCIPLINA LIKE '%" + codigo + "%'";
             aux = 1;
         }
         
@@ -169,13 +189,54 @@ public class BuscaDisciplina extends javax.swing.JFrame {
             if (aux == 1){
                 sql = sql + " AND ";
             }
-            sql = sql + "DESCRICAO LIKE '%" + disciplina + "%'";
+            sql = sql + "NOME_DA_DISCIPLINA LIKE '%" + disciplina + "%'";
         }
         
         sql = sql + " ORDER BY DESCRICAO;";
-        JOptionPane.showMessageDialog(null, sql);
+        //JOptionPane.showMessageDialog(null, sql);
+        preencherTabela(sql);
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
+    private void jTableDisciplinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDisciplinaMouseClicked
+        if (evt.getClickCount() == 2){
+            Disciplina tela = new Disciplina();
+            tela.setVisible(true);
+            tela.preencheDisciplina((int) jTableDisciplina.getValueAt(jTableDisciplina.getSelectedRow(), 0));
+            dispose();
+        }
+    }//GEN-LAST:event_jTableDisciplinaMouseClicked
+
+    public void preencherTabela(String Sql){
+        ArrayList dados = new ArrayList();
+        String [] colunas = new String []{"","Código","Disciplina"};
+        conex.conexao();
+        conex.executaSql(Sql);
+        try{
+            conex.rs.first();
+            do{
+                dados.add(new Object[]{conex.rs.getInt("ID_DISCIPLINA"),conex.rs.getString("CODIGO_DA_DISCIPLINA"),conex.rs.getString("NOME_DA_DISCIPLINA")});
+            }while(conex.rs.next());
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(rootPane, "Erro ao preencher ArrayList"+ex);
+        }
+        
+        ModeloTabela modelo = new ModeloTabela(dados, colunas);
+        
+        jTableDisciplina.setModel(modelo);
+        jTableDisciplina.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableDisciplina.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableDisciplina.getColumnModel().getColumn(0).setResizable(false);
+        jTableDisciplina.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTableDisciplina.getColumnModel().getColumn(1).setResizable(false);
+        jTableDisciplina.getColumnModel().getColumn(2).setPreferredWidth(362);
+        jTableDisciplina.getColumnModel().getColumn(2).setResizable(false);
+        jTableDisciplina.getTableHeader().setReorderingAllowed(false);
+        jTableDisciplina.setAutoResizeMode(jTableDisciplina.AUTO_RESIZE_OFF);
+        jTableDisciplina.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        conex.desconecta();
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -221,8 +282,8 @@ public class BuscaDisciplina extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList jListBuscaDisciplina;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTableDisciplina;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldDisciplina;
     // End of variables declaration//GEN-END:variables

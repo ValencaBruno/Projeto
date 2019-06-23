@@ -15,6 +15,8 @@ public class Disciplina extends javax.swing.JFrame {
     
     ModeloDisciplina mod = new ModeloDisciplina();
     ControleDisciplina control = new ControleDisciplina();
+    int ID_DISCIPLINA = 0;
+    int flag = 0;
     /**
      * Creates new form Disciplina
      */
@@ -44,7 +46,7 @@ public class Disciplina extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
-        jButtonCancelar = new javax.swing.JButton();
+        jButtonAlterar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,7 +71,12 @@ public class Disciplina extends javax.swing.JFrame {
             }
         });
 
-        jButtonCancelar.setText("Cancelar");
+        jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonVoltar.setText("Voltar");
         jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +113,7 @@ public class Disciplina extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -138,7 +145,7 @@ public class Disciplina extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButtonCancelar)
+                    .addComponent(jButtonAlterar)
                     .addComponent(jButtonVoltar))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -153,14 +160,70 @@ public class Disciplina extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        mod.setNOME_DISCIPLINA(jTextFieldNomeDisciplina.getText());
-        mod.setDESCRICAO(jTextFieldDescricao.getText());
-        mod.setCODIGO(jTextFieldCodigo.getText());
-        mod.setSEMESTRE(jTextFieldSemestre.getText());
-        mod.setCARGA_HORARIA(Integer.parseInt(jTextFieldCargaHoraria.getText()));
-        control.Salvar(mod);
+        
+        if(flag==1){
+            mod.setNOME_DISCIPLINA(jTextFieldNomeDisciplina.getText());
+            mod.setDESCRICAO(jTextFieldDescricao.getText());
+            mod.setCODIGO(jTextFieldCodigo.getText());
+            mod.setSEMESTRE(jTextFieldSemestre.getText());
+            mod.setCARGA_HORARIA(Integer.parseInt(jTextFieldCargaHoraria.getText()));
+            control.Salvar(mod);
+        }else{
+            mod.setID_DISCIPLINA(ID_DISCIPLINA);
+            mod.setNOME_DISCIPLINA(jTextFieldNomeDisciplina.getText());
+            mod.setDESCRICAO(jTextFieldDescricao.getText());
+            mod.setCODIGO(jTextFieldCodigo.getText());
+            mod.setSEMESTRE(jTextFieldSemestre.getText());
+            mod.setCARGA_HORARIA(Integer.parseInt(jTextFieldCargaHoraria.getText()));
+            control.Editar(mod);
+        }
+        jTextFieldNomeDisciplina.setEnabled(false);
+        jTextFieldDescricao.setEnabled(false);
+        jTextFieldCodigo.setEnabled(false);
+        jTextFieldSemestre.setEnabled(false);
+        jTextFieldCargaHoraria.setEnabled(false);
+        jButtonAlterar.setEnabled(false);
+        jButtonSalvar.setEnabled(true);
+        jButtonVoltar.setEnabled(true);
+        
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jTextFieldNomeDisciplina.setEnabled(true);
+        jTextFieldDescricao.setEnabled(true);
+        jTextFieldCodigo.setEnabled(true);
+        jTextFieldSemestre.setEnabled(true);
+        jTextFieldCargaHoraria.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
+        jButtonVoltar.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    public void preencheDisciplina(int ID){
+        ID_DISCIPLINA = ID;
+        ModeloDisciplina model = control.buscaDisciplina(mod, ID);
+        jTextFieldNomeDisciplina.setText(model.getNOME_DISCIPLINA());
+        jTextFieldDescricao.setText(model.getDESCRICAO());
+        jTextFieldCodigo.setText(model.getCODIGO());
+        jTextFieldSemestre.setText(model.getSEMESTRE());
+        jTextFieldCargaHoraria.setText(String.valueOf(model.getCARGA_HORARIA()));
+        
+        jTextFieldNomeDisciplina.setEnabled(false);
+        jTextFieldDescricao.setEnabled(false);
+        jTextFieldCodigo.setEnabled(false);
+        jTextFieldSemestre.setEnabled(false);
+        jTextFieldCargaHoraria.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+        jButtonVoltar.setEnabled(true);
+    }
+    
+    public void novo(){
+        jButtonAlterar.setEnabled(false);
+        flag = 1;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -197,7 +260,7 @@ public class Disciplina extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JLabel jLabel1;

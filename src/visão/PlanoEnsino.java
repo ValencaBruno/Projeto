@@ -5,12 +5,23 @@
  */
 package visão;
 
+import controle.ControlePlanoEnsino;
+import controle.conectaBD;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelo.ModeloPlanoEnsino;
+
 /**
  *
  * @author Diarley Gomes
  */
 public class PlanoEnsino extends javax.swing.JFrame {
-
+    conectaBD conex = new conectaBD();
+    ModeloPlanoEnsino mod = new ModeloPlanoEnsino();
+    ControlePlanoEnsino control = new ControlePlanoEnsino();
+    
     /**
      * Creates new form PlanoEnsino
      */
@@ -50,19 +61,20 @@ public class PlanoEnsino extends javax.swing.JFrame {
         jTextAreaEmenta = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextAreaCompetencia = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        jTextAreaMetodologia = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        jTextAreaAvaliacao = new javax.swing.JTextArea();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTextArea5 = new javax.swing.JTextArea();
+        jTextAreaBibliografia = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextAreaCronograma = new javax.swing.JTextArea();
+        jButtonAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Plano de Ensino");
@@ -83,15 +95,25 @@ public class PlanoEnsino extends javax.swing.JFrame {
 
         jLabel3.setText("Carga Horária:");
 
+        jTextFieldCargaHoraria.setEnabled(false);
+
         jLabel4.setText("horas");
 
         jLabel5.setText("Período do Curso:");
 
-        jLabel6.setText("Professor (a):");
+        jTextFieldPeriodo.setEnabled(false);
 
-        jTextFieldMatriculaProf.setText("Matrílcula");
+        jLabel6.setText("Matrícula Professor (a):");
+
+        jTextFieldMatriculaProf.setEnabled(false);
+        jTextFieldMatriculaProf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldMatriculaProfActionPerformed(evt);
+            }
+        });
 
         jButtonBuscarProfessor.setText("Buscar");
+        jButtonBuscarProfessor.setEnabled(false);
         jButtonBuscarProfessor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBuscarProfessorActionPerformed(evt);
@@ -108,8 +130,20 @@ public class PlanoEnsino extends javax.swing.JFrame {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.setEnabled(false);
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setEnabled(false);
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("EMENTA");
@@ -117,116 +151,65 @@ public class PlanoEnsino extends javax.swing.JFrame {
         jTextAreaEmenta.setColumns(20);
         jTextAreaEmenta.setRows(5);
         jTextAreaEmenta.setText("Descrever a ementa do curso.");
+        jTextAreaEmenta.setEnabled(false);
         jScrollPane1.setViewportView(jTextAreaEmenta);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("COMPETÊNCIAS E HABILIDADES");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("Descrever as competências e habilidades a serem adquiridas com o curso.");
-        jScrollPane2.setViewportView(jTextArea2);
+        jTextAreaCompetencia.setColumns(20);
+        jTextAreaCompetencia.setRows(5);
+        jTextAreaCompetencia.setText("Descrever as competências e habilidades a serem adquiridas com o curso.");
+        jTextAreaCompetencia.setEnabled(false);
+        jScrollPane2.setViewportView(jTextAreaCompetencia);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel9.setText("METODOLOGIA DE ENSINO");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jTextArea3.setText("Descrever as técnicas e recursos da metodologia.");
-        jScrollPane3.setViewportView(jTextArea3);
+        jTextAreaMetodologia.setColumns(20);
+        jTextAreaMetodologia.setRows(5);
+        jTextAreaMetodologia.setText("Descrever as técnicas e recursos da metodologia.");
+        jTextAreaMetodologia.setEnabled(false);
+        jScrollPane3.setViewportView(jTextAreaMetodologia);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel10.setText("CRONOGRAMA DE ATIVIDADES");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane5.setViewportView(jList1);
-
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("AVALIAÇÃO");
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jTextArea4.setText("Critérios de avaliação.");
-        jScrollPane6.setViewportView(jTextArea4);
+        jTextAreaAvaliacao.setColumns(20);
+        jTextAreaAvaliacao.setRows(5);
+        jTextAreaAvaliacao.setText("Critérios de avaliação.");
+        jTextAreaAvaliacao.setEnabled(false);
+        jScrollPane6.setViewportView(jTextAreaAvaliacao);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel12.setText("BIBLIOGRAFIA");
 
-        jTextArea5.setColumns(20);
-        jTextArea5.setRows(5);
-        jTextArea5.setText("Incluir a bibliografia básica e complementar.");
-        jScrollPane7.setViewportView(jTextArea5);
+        jTextAreaBibliografia.setColumns(20);
+        jTextAreaBibliografia.setRows(5);
+        jTextAreaBibliografia.setText("Incluir a bibliografia básica e complementar.");
+        jTextAreaBibliografia.setEnabled(false);
+        jScrollPane7.setViewportView(jTextAreaBibliografia);
+
+        jTextAreaCronograma.setColumns(20);
+        jTextAreaCronograma.setRows(5);
+        jTextAreaCronograma.setText("Descrever o cronograma de atividades.");
+        jTextAreaCronograma.setEnabled(false);
+        jScrollPane4.setViewportView(jTextAreaCronograma);
+
+        jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextFieldCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(96, 96, 96)
-                                    .addComponent(jLabel5)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextFieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextFieldMatriculaProf, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonBuscarProfessor)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabelProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonBuscarDisciplina)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabelDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(250, 250, 250)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonVoltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(207, 207, 207)
-                                    .addComponent(jLabel8))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(276, 276, 276)
-                                    .addComponent(jLabel7))
-                                .addComponent(jScrollPane1)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(232, 232, 232)
-                                    .addComponent(jLabel9))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(213, 213, 213)
-                                    .addComponent(jLabel10))
-                                .addComponent(jScrollPane5))
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 119, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -239,19 +222,82 @@ public class PlanoEnsino extends javax.swing.JFrame {
                         .addGap(275, 275, 275)
                         .addComponent(jLabel12)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldCargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(96, 96, 96)
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldMatriculaProf, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonBuscarProfessor)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonBuscarDisciplina)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabelDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(250, 250, 250)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(207, 207, 207)
+                            .addComponent(jLabel8))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(276, 276, 276)
+                            .addComponent(jLabel7))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(232, 232, 232)
+                            .addComponent(jLabel9))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(213, 213, 213)
+                            .addComponent(jLabel10))
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jButtonAlterar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDisciplina, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonBuscarDisciplina, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonBuscarDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -280,9 +326,9 @@ public class PlanoEnsino extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,6 +341,8 @@ public class PlanoEnsino extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jButtonVoltar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSalvar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCancelar)
@@ -305,20 +353,158 @@ public class PlanoEnsino extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBuscarDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarDisciplinaActionPerformed
-        //jLabelDisciplina label = new jLabel(jTextFieldCodigo);
-        jLabelDisciplina.setText(jTextFieldCodigo.getText());
+        String codigo = jTextFieldCodigo.getText();
+        ModeloPlanoEnsino model = control.buscaPlano(mod, codigo);
+        
+        jTextFieldCodigo.setText(model.getCODIGO_DISCIPLINA());
+        jLabelDisciplina.setText(model.getNOME_DISCIPLINA());
+        jTextFieldCargaHoraria.setText(String.valueOf(model.getCARGA_HORARIA()));
+        jTextFieldPeriodo.setText(model.getPERIODO_DO_CURSO());
+        jTextFieldMatriculaProf.setText(model.getMATRICULA_PROFESSOR());
+        jLabelProfessor.setText(model.getNOME_PROFESSOR());
+        jTextAreaEmenta.setText(model.getEMENTA());
+        jTextAreaCompetencia.setText(model.getCOMPETENCIAS_E_HABILIDADES());
+        jTextAreaMetodologia.setText(model.getMETODOLOGIA_DE_ENSINO());
+        jTextAreaCronograma.setText(model.getCRONOGRAMA_DE_ATIVIDADES());
+        jTextAreaAvaliacao.setText(model.getAVALIACAO());
+        jTextAreaBibliografia.setText(model.getBIBLIOGRAFIA());
+        
+        
     }//GEN-LAST:event_jButtonBuscarDisciplinaActionPerformed
 
     private void jButtonBuscarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarProfessorActionPerformed
-        jLabelProfessor.setText(jTextFieldMatriculaProf.getText());
+        String matricula = jTextFieldMatriculaProf.getText();
+        conex.conexao();
+        conex.executaSql("SELECT * FROM Professor WHERE MATRICULA LIKE '%" + matricula + "%';");
+        
+        try {
+            conex.rs.first();
+            mod.setID_PROFESSOR(conex.rs.getInt("ID_PROFESSOR"));
+            mod.setNOME_PROFESSOR(conex.rs.getString("PROFESSOR"));
+            mod.setMATRICULA_PROFESSOR(conex.rs.getString("MATRICULA"));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Professor não encontrado!");
+        }
+        conex.desconecta();
+        jTextFieldMatriculaProf.setText(mod.getMATRICULA_PROFESSOR());
+        jLabelProfessor.setText(mod.getNOME_PROFESSOR());
+        
     }//GEN-LAST:event_jButtonBuscarProfessorActionPerformed
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-        BuscaPlanoEnsino tela = new BuscaPlanoEnsino();
+        Principal tela = new Principal();
         tela.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
+    private void jTextFieldMatriculaProfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMatriculaProfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMatriculaProfActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jTextFieldCargaHoraria.setEnabled(true);
+        jTextFieldPeriodo.setEnabled(true);
+        jTextFieldMatriculaProf.setEnabled(true);
+        jLabelProfessor.setEnabled(true);
+        jTextAreaEmenta.setEnabled(true);
+        jTextAreaCompetencia.setEnabled(true);
+        jTextAreaMetodologia.setEnabled(true);
+        jTextAreaCronograma.setEnabled(true);
+        jTextAreaAvaliacao.setEnabled(true);
+        jTextAreaBibliografia.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        jButtonCancelar.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        jButtonSalvar.setEnabled(true);
+        jButtonBuscarProfessor.setEnabled(true);
+        
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jTextFieldCargaHoraria.setEnabled(false);
+        jTextFieldPeriodo.setEnabled(false);
+        jTextFieldMatriculaProf.setEnabled(false);
+        jLabelProfessor.setEnabled(false);
+        jTextAreaEmenta.setEnabled(false);
+        jTextAreaCompetencia.setEnabled(false);
+        jTextAreaMetodologia.setEnabled(false);
+        jTextAreaCronograma.setEnabled(false);
+        jTextAreaAvaliacao.setEnabled(false);
+        jTextAreaBibliografia.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonCancelar.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+        jButtonBuscarProfessor.setEnabled(false);
+        
+        jTextFieldCodigo.setText("");
+        jLabelDisciplina.setText("");
+        jTextFieldCargaHoraria.setText(String.valueOf(""));
+        jTextFieldPeriodo.setText("");
+        jTextFieldMatriculaProf.setText("");
+        jLabelProfessor.setText("");
+        jTextAreaEmenta.setText("Descrever a ementa do curso.");
+        jTextAreaCompetencia.setText("Descrever as competências e habilidades a serem adquiridas com o curso.");
+        jTextAreaMetodologia.setText("Descrever as técnicas e recursos da metodologia.");
+        jTextAreaCronograma.setText("Descrever o cronograma de atividades.");
+        jTextAreaAvaliacao.setText("Critérios de avaliação.");
+        jTextAreaBibliografia.setText("Incluir a bibliografia básica e complementar.");
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        String codigo = jTextFieldCodigo.getText();
+        ModeloPlanoEnsino model = control.buscaPlano(mod, codigo);
+        
+        if (model.getID_PLANO_ENSINO() == 0){
+            mod.setCARGA_HORARIA(Integer.parseInt(jTextFieldCargaHoraria.getText()));
+            mod.setPERIODO_DO_CURSO(jTextFieldPeriodo.getText());
+            mod.setEMENTA(jTextAreaEmenta.getText());
+            mod.setCOMPETENCIAS_E_HABILIDADES(jTextAreaCompetencia.getText());
+            mod.setMETODOLOGIA_DE_ENSINO(jTextAreaMetodologia.getText());
+            mod.setCRONOGRAMA_DE_ATIVIDADES(jTextAreaCronograma.getText());
+            mod.setAVALIACAO(jTextAreaAvaliacao.getText());
+            mod.setBIBLIOGRAFIA(jTextAreaBibliografia.getText());
+            
+            if(jLabelProfessor.equals("")){
+                mod.setID_PROFESSOR(0);
+            }
+            
+            control.Salvar(mod);
+        }else{
+            mod.setCARGA_HORARIA(Integer.parseInt(jTextFieldCargaHoraria.getText()));
+            mod.setPERIODO_DO_CURSO(jTextFieldPeriodo.getText());
+            mod.setEMENTA(jTextAreaEmenta.getText());
+            mod.setCOMPETENCIAS_E_HABILIDADES(jTextAreaCompetencia.getText());
+            mod.setMETODOLOGIA_DE_ENSINO(jTextAreaMetodologia.getText());
+            mod.setCRONOGRAMA_DE_ATIVIDADES(jTextAreaCronograma.getText());
+            mod.setAVALIACAO(jTextAreaAvaliacao.getText());
+            mod.setBIBLIOGRAFIA(jTextAreaBibliografia.getText());
+            
+            if(jLabelProfessor.equals("")){
+                mod.setID_PROFESSOR(0);
+            }
+            
+            control.Editar(mod);
+        }
+        
+        jTextFieldCargaHoraria.setEnabled(false);
+        jTextFieldPeriodo.setEnabled(false);
+        jTextFieldMatriculaProf.setEnabled(false);
+        jLabelProfessor.setEnabled(false);
+        jTextAreaEmenta.setEnabled(false);
+        jTextAreaCompetencia.setEnabled(false);
+        jTextAreaMetodologia.setEnabled(false);
+        jTextAreaCronograma.setEnabled(false);
+        jTextAreaAvaliacao.setEnabled(false);
+        jTextAreaBibliografia.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonCancelar.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+        jButtonBuscarProfessor.setEnabled(false);
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+   
+    
     /**
      * @param args the command line arguments
      */
@@ -355,6 +541,7 @@ public class PlanoEnsino extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonBuscarDisciplina;
     private javax.swing.JButton jButtonBuscarProfessor;
     private javax.swing.JButton jButtonCancelar;
@@ -374,18 +561,18 @@ public class PlanoEnsino extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelDisciplina;
     private javax.swing.JLabel jLabelProfessor;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextArea jTextArea5;
+    private javax.swing.JTextArea jTextAreaAvaliacao;
+    private javax.swing.JTextArea jTextAreaBibliografia;
+    private javax.swing.JTextArea jTextAreaCompetencia;
+    private javax.swing.JTextArea jTextAreaCronograma;
     private javax.swing.JTextArea jTextAreaEmenta;
+    private javax.swing.JTextArea jTextAreaMetodologia;
     private javax.swing.JTextField jTextFieldCargaHoraria;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldMatriculaProf;

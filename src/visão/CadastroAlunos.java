@@ -8,6 +8,7 @@ package visão;
 import controle.ControleAlunos;
 import modelo.ModeloAlunos;
 
+
 /**
  *
  * @author Diarley Gomes
@@ -16,7 +17,8 @@ public class CadastroAlunos extends javax.swing.JFrame {
     
     ModeloAlunos mod = new ModeloAlunos();
     ControleAlunos control = new ControleAlunos();
-    //ControleAlunos control = new ControleAlunos();
+    int ID_ALUNO = 0;
+    int flag = 0;
     
     /**
      * Creates new form NewJFrame
@@ -100,6 +102,11 @@ public class CadastroAlunos extends javax.swing.JFrame {
         jLabel3.setText("Nome");
 
         jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Identidade");
 
@@ -349,7 +356,49 @@ public class CadastroAlunos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
-        // TODO add your handling code here:
+        jTextFieldMatricula.setText("");
+        jTextFieldNome.setText("");
+        jTextFieldIdentidade.setText("");
+        jTextFieldOrgaoEmissor.setText("");
+        jTextFieldCPF.setText("");
+        jTextFieldDataNascimento.setText("");
+        jTextFieldNascPais.setText("");
+        jTextFieldNascCidade.setText("");
+        jTextFieldNascUF.setText("");
+        jTextFieldNomePai.setText("");
+        jTextFieldNomeMae.setText("");
+        jTextFieldEndereco.setText("");
+        jTextFieldCidade.setText("");
+        jTextFieldUF.setText("");
+        jTextFieldCEP.setText("");
+        jTextFieldEmail.setText("");
+        jTextFieldTelefone.setText("");
+        jTextFieldCelular.setText("");        
+        
+        jTextFieldMatricula.setEnabled(true);
+        jTextFieldNome.setEnabled(true);
+        jTextFieldIdentidade.setEnabled(true);
+        jTextFieldOrgaoEmissor.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        jTextFieldDataNascimento.setEnabled(true);
+        jTextFieldNascPais.setEnabled(true);
+        jTextFieldNascCidade.setEnabled(true);
+        jTextFieldNascUF.setEnabled(true);
+        jTextFieldNomePai.setEnabled(true);
+        jTextFieldNomeMae.setEnabled(true);
+        jTextFieldEndereco.setEnabled(true);
+        jTextFieldCidade.setEnabled(true);
+        jTextFieldUF.setEnabled(true);
+        jTextFieldCEP.setEnabled(true);
+        jTextFieldEmail.setEnabled(true);
+        jTextFieldTelefone.setEnabled(true);
+        jTextFieldCelular.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        jButtonNovo.setEnabled(false);
+        jButtonVoltar.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
+        flag = 1;
+        
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jTextFieldNascPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNascPaisActionPerformed
@@ -375,27 +424,150 @@ public class CadastroAlunos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        mod.setMATRICULA(jTextFieldMatricula.getText());
-        mod.setNOME(jTextFieldNome.getText());
-        mod.setIDENTIDADE(jTextFieldIdentidade.getText());
-        mod.setORGAO_EMISSOR(jTextFieldOrgaoEmissor.getText());
-        mod.setCPF(jTextFieldCPF.getText());
-        mod.setDATA_DE_NASCIMENTO(jTextFieldDataNascimento.getText());
-        mod.setPAIS_NASCIMENTO(jTextFieldNascPais.getText());
-        mod.setCIDADE_NASCIMENTO(jTextFieldNascCidade.getText());
-        mod.setUF_NASCIMENTO(jTextFieldNascUF.getText());
-        mod.setPAI(jTextFieldNomePai.getText());
-        mod.setMAE(jTextFieldNomeMae.getText());
-        mod.setENDEREÇO(jTextFieldEndereco.getText());
-        mod.setCIDADE_ENDERECO(jTextFieldCidade.getText());
-        mod.setUF(jTextFieldUF.getText());
-        mod.setCEP(jTextFieldCEP.getText());
-        mod.setEMAIL(jTextFieldEmail.getText());
-        mod.setTELEFONE(jTextFieldTelefone.getText());
-        mod.setCELULAR(jTextFieldCelular.getText());
-        control.Salvar(mod);
+        if(flag==1){
+            mod.setMATRICULA(jTextFieldMatricula.getText());
+            mod.setNOME(jTextFieldNome.getText());
+            mod.setIDENTIDADE(jTextFieldIdentidade.getText());
+            mod.setORGAO_EMISSOR(jTextFieldOrgaoEmissor.getText());
+            mod.setCPF(jTextFieldCPF.getText());
+            mod.setDATA_DE_NASCIMENTO(jTextFieldDataNascimento.getText());
+            mod.setPAIS_NASCIMENTO(jTextFieldNascPais.getText());
+            mod.setCIDADE_NASCIMENTO(jTextFieldNascCidade.getText());
+            mod.setUF_NASCIMENTO(jTextFieldNascUF.getText());
+            mod.setPAI(jTextFieldNomePai.getText());
+            mod.setMAE(jTextFieldNomeMae.getText());
+            mod.setENDEREÇO(jTextFieldEndereco.getText());
+            mod.setCIDADE_ENDERECO(jTextFieldCidade.getText());
+            mod.setUF(jTextFieldUF.getText());
+            mod.setCEP(jTextFieldCEP.getText());
+            mod.setEMAIL(jTextFieldEmail.getText());
+            mod.setTELEFONE(jTextFieldTelefone.getText());
+            mod.setCELULAR(jTextFieldCelular.getText());
+            control.Salvar(mod);
+        }else{
+            mod.setID_ALUNO(ID_ALUNO);
+            mod.setMATRICULA(jTextFieldMatricula.getText());
+            mod.setNOME(jTextFieldNome.getText());
+            mod.setIDENTIDADE(jTextFieldIdentidade.getText());
+            mod.setORGAO_EMISSOR(jTextFieldOrgaoEmissor.getText());
+            mod.setCPF(jTextFieldCPF.getText());
+            mod.setDATA_DE_NASCIMENTO(jTextFieldDataNascimento.getText());
+            mod.setPAIS_NASCIMENTO(jTextFieldNascPais.getText());
+            mod.setCIDADE_NASCIMENTO(jTextFieldNascCidade.getText());
+            mod.setUF_NASCIMENTO(jTextFieldNascUF.getText());
+            mod.setPAI(jTextFieldNomePai.getText());
+            mod.setMAE(jTextFieldNomeMae.getText());
+            mod.setENDEREÇO(jTextFieldEndereco.getText());
+            mod.setCIDADE_ENDERECO(jTextFieldCidade.getText());
+            mod.setUF(jTextFieldUF.getText());
+            mod.setCEP(jTextFieldCEP.getText());
+            mod.setEMAIL(jTextFieldEmail.getText());
+            mod.setTELEFONE(jTextFieldTelefone.getText());
+            mod.setCELULAR(jTextFieldCelular.getText());
+            control.Editar(mod);
+        }
+        
+        jTextFieldMatricula.setEnabled(false);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldIdentidade.setEnabled(false);
+        jTextFieldOrgaoEmissor.setEnabled(false);
+        jTextFieldCPF.setEnabled(false);
+        jTextFieldDataNascimento.setEnabled(false);
+        jTextFieldNascPais.setEnabled(false);
+        jTextFieldNascCidade.setEnabled(false);
+        jTextFieldNascUF.setEnabled(false);
+        jTextFieldNomePai.setEnabled(false);
+        jTextFieldNomeMae.setEnabled(false);
+        jTextFieldEndereco.setEnabled(false);
+        jTextFieldCidade.setEnabled(false);
+        jTextFieldUF.setEnabled(false);
+        jTextFieldCEP.setEnabled(false);
+        jTextFieldEmail.setEnabled(false);
+        jTextFieldTelefone.setEnabled(false);
+        jTextFieldCelular.setEnabled(false);
+        jButtonNovo.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonVoltar.setEnabled(true);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        jTextFieldMatricula.setEnabled(true);
+        jTextFieldNome.setEnabled(true);
+        jTextFieldIdentidade.setEnabled(true);
+        jTextFieldOrgaoEmissor.setEnabled(true);
+        jTextFieldCPF.setEnabled(true);
+        jTextFieldDataNascimento.setEnabled(true);
+        jTextFieldNascPais.setEnabled(true);
+        jTextFieldNascCidade.setEnabled(true);
+        jTextFieldNascUF.setEnabled(true);
+        jTextFieldNomePai.setEnabled(true);
+        jTextFieldNomeMae.setEnabled(true);
+        jTextFieldEndereco.setEnabled(true);
+        jTextFieldCidade.setEnabled(true);
+        jTextFieldUF.setEnabled(true);
+        jTextFieldCEP.setEnabled(true);
+        jTextFieldEmail.setEnabled(true);
+        jTextFieldTelefone.setEnabled(true);
+        jTextFieldCelular.setEnabled(true);
+        jButtonAlterar.setEnabled(false);
+        jButtonNovo.setEnabled(false);
+        jButtonVoltar.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    public void preencheAluno(int ID){
+        ID_ALUNO = ID;
+        ModeloAlunos model = control.buscaAlunos(mod, ID);
+        jTextFieldMatricula.setText(model.getMATRICULA());
+        jTextFieldNome.setText(model.getNOME());
+        jTextFieldIdentidade.setText(model.getIDENTIDADE());
+        jTextFieldOrgaoEmissor.setText(model.getORGAO_EMISSOR());
+        jTextFieldCPF.setText(model.getCPF());
+        jTextFieldDataNascimento.setText(model.getDATA_DE_NASCIMENTO());
+        jTextFieldNascPais.setText(model.getPAIS_NASCIMENTO());
+        jTextFieldNascCidade.setText(model.getCIDADE_NASCIMENTO());
+        jTextFieldNascUF.setText(model.getUF_NASCIMENTO());
+        jTextFieldNomePai.setText(model.getPAI());
+        jTextFieldNomeMae.setText(model.getMAE());
+        jTextFieldEndereco.setText(model.getENDEREÇO());
+        jTextFieldCidade.setText(model.getCIDADE_ENDERECO());
+        jTextFieldUF.setText(model.getUF());
+        jTextFieldCEP.setText(model.getCEP());
+        jTextFieldEmail.setText(model.getEMAIL());
+        jTextFieldTelefone.setText(model.getTELEFONE());
+        jTextFieldCelular.setText(model.getCELULAR());
+        
+        jTextFieldMatricula.setEnabled(false);
+        jTextFieldNome.setEnabled(false);
+        jTextFieldIdentidade.setEnabled(false);
+        jTextFieldOrgaoEmissor.setEnabled(false);
+        jTextFieldCPF.setEnabled(false);
+        jTextFieldDataNascimento.setEnabled(false);
+        jTextFieldNascPais.setEnabled(false);
+        jTextFieldNascCidade.setEnabled(false);
+        jTextFieldNascUF.setEnabled(false);
+        jTextFieldNomePai.setEnabled(false);
+        jTextFieldNomeMae.setEnabled(false);
+        jTextFieldEndereco.setEnabled(false);
+        jTextFieldCidade.setEnabled(false);
+        jTextFieldUF.setEnabled(false);
+        jTextFieldCEP.setEnabled(false);
+        jTextFieldEmail.setEnabled(false);
+        jTextFieldTelefone.setEnabled(false);
+        jTextFieldCelular.setEnabled(false);
+        jButtonAlterar.setEnabled(true);
+        jButtonNovo.setEnabled(true);
+        jButtonVoltar.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+    }
+    
+    public void novo(){
+        jButtonAlterar.setEnabled(false);
+        jButtonNovo.setEnabled(false);
+        flag = 1;
+    }
+    
     /**
      * @param args the command line arguments
      */

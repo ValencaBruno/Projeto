@@ -15,6 +15,7 @@ public class ModeloDisciplina {
     private String CODIGO;
     private String SEMESTRE;
     private int CARGA_HORARIA;
+    private int ID_DISCIPLINA;
 
     /**
      * @return the NOME_DISCIPLINA
@@ -84,5 +85,19 @@ public class ModeloDisciplina {
      */
     public void setCARGA_HORARIA(int CARGA_HORARIA) {
         this.CARGA_HORARIA = CARGA_HORARIA;
+    }
+
+    /**
+     * @return the ID_DISCIPLINA
+     */
+    public int getID_DISCIPLINA() {
+        return ID_DISCIPLINA;
+    }
+
+    /**
+     * @param ID_DISCIPLINA the ID_DISCIPLINA to set
+     */
+    public void setID_DISCIPLINA(int ID_DISCIPLINA) {
+        this.ID_DISCIPLINA = ID_DISCIPLINA;
     }
 }
